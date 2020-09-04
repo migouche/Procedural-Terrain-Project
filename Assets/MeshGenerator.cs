@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 [ExecuteAlways]
 public class MeshGenerator : MonoBehaviour
@@ -9,6 +8,8 @@ public class MeshGenerator : MonoBehaviour
     Mesh mesh;
     Vector3[] vertices;
     int[] triangles;
+
+    Vector2[] uvs;
 
     public int XSize;
     public int ZSize;
@@ -42,7 +43,7 @@ public class MeshGenerator : MonoBehaviour
                 float Y = 0;
                 foreach(NoiseLayer n in Layers)
                 {
-                    Y += Mathf.PerlinNoise(x * n.scale, z * n.scale) * n.height;
+                    Y += Mathf.PerlinNoise((x + transform.position.x) / n.scale, (z + transform.position.z) / n.scale) * n.height;
 				}
                 vertices[i] = new Vector3(x, Y, z);
                 i++;
@@ -52,7 +53,7 @@ public class MeshGenerator : MonoBehaviour
         int vert = 0;
         int tris = 0;
         triangles = new int[XSize * ZSize * 6];
-        for (int z = 0; z < ZSize; z++)
+       for (int z = 0; z < ZSize; z++)
         {
             for (int x = 0; x < XSize; x++)
             {
@@ -67,6 +68,17 @@ public class MeshGenerator : MonoBehaviour
             }
             vert++;
         }
+       
+        int ii = 0;
+        uvs = new Vector2[vertices.Length];
+        for (int z = 0; z <= ZSize; z++)
+        {
+            for (int x = 0; x <= XSize; x++)
+            {
+                uvs[ii] = new Vector2((float)x / XSize, (float)x / ZSize);
+                ii++;
+            }
+        }
     }
 
     void UpdateMesh()
@@ -75,19 +87,23 @@ public class MeshGenerator : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
 
+        mesh.RecalculateBounds();
         mesh.RecalculateNormals();
-	}
 
-	private void OnDrawGizmos()
+        mesh.uv = uvs;
+
+    }
+
+    private void OnDrawGizmos()
 	{
         if (vertices != null)
         {
             for (int i = 0; i < vertices.Length; i++)
-                Gizmos.DrawSphere(vertices[i], .1f);
+                Gizmos.DrawSphere(vertices[i] + transform.position, .1f);
         }
     }
 
-    [Serializable]
+    [System.Serializable]
     public class NoiseLayer
 	{
         public float scale;
