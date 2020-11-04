@@ -101,7 +101,7 @@ public class MeshGenerator : MonoBehaviour
                 Gizmos.DrawSphere(vertices[i] + transform.position, .1f);
         }
     }
-
+    [MenuItem("Terrain Generator/New Terrain", false, 12)]
     [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
     public static void NewTerrain()
 	{
