@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEditor;
 
 [ExecuteAlways]
+[RequireComponent(typeof(MeshRenderer))][RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
 {
     Mesh mesh;
@@ -11,17 +11,15 @@ public class MeshGenerator : MonoBehaviour
 
     Vector2[] uvs;
 
-    public int XSize;
-    public int ZSize;
-    public float height;
+    public int XSize = 20;
+    public int ZSize = 20;
 
-    public NoiseLayer[] Layers;
+    public NoiseLayer[] Layers = new NoiseLayer[] { new NoiseLayer { scale = 5, height = 2 } };
     // Start is called before the first frame update
     void Start()
     {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
-
     }
 
     // Update is called once per frame
@@ -94,6 +92,7 @@ public class MeshGenerator : MonoBehaviour
 
     }
 
+
     private void OnDrawGizmos()
 	{
         if (vertices != null)
@@ -102,6 +101,12 @@ public class MeshGenerator : MonoBehaviour
                 Gizmos.DrawSphere(vertices[i] + transform.position, .1f);
         }
     }
+
+    [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
+    public static void NewTerrain()
+	{
+        new GameObject("New Terrain", typeof(MeshGenerator));
+	}
 
     [System.Serializable]
     public class NoiseLayer
