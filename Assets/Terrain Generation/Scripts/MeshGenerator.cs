@@ -1,34 +1,38 @@
 ﻿using UnityEngine;
 using UnityEditor;
-
+//using System.Diagnostics;
 
 [HelpURL("https://github.com/migouche/Procedural-Terrain-Project")]
 
 [ExecuteAlways]
-[RequireComponent(typeof(MeshRenderer))][RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))] [RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
 {
     Mesh mesh;
     Vector3[] vertices;
     int[] triangles;
     Vector2[] uvs;
-    
+
+    private Vector3 LPos;
+
+    public bool UseCollider;
+
     [Header("Terrain Properties")]  //Terrain Settings
     [Tooltip("Number of Vertices on the X Axis")]
     public int XSize = 20;
     [Tooltip("Number of Vectices on the Z axis")]
     public int ZSize = 20;
-    
+
     [Space(5)]
-    
+
     public NoiseLayer[] Layers = { new NoiseLayer { scale = 5, height = 2 } };
 
     [Space(10)]
-    
+
     [Header("Gizmos")]  //Gizmos Settings
     [Tooltip("Wether or not to draw the vertices of the Terrain")]
     public bool DrawVertices;
-    
+
     [Tooltip("Wether or not to draw the Terrain Wireframe")]
     public bool DrawWireFrame;
 
@@ -37,18 +41,25 @@ public class MeshGenerator : MonoBehaviour
 
     void Start()
     {
+
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        vertices = new Vector3[(XSize + 1) * (ZSize + 1)];
+        if (LPos != transform.position || true)
+        {
+            vertices = new Vector3[(XSize + 1) * (ZSize + 1)];
 
-        CreateMesh();
-        UpdateMesh();
+            CreateMesh();
+            UpdateMesh();
+        }
+        LPos = transform.position;
     }
+
 
     void CreateMesh()
 	{
@@ -92,11 +103,19 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= XSize; x++)
             {
-                uvs[ii] = new Vector2((float)x / XSize, (float)x / ZSize);
+                uvs[ii] = new Vector2((float)x / XSize, (float)z / ZSize);
                 ii++;
             }
         }
     }
+
+    public void UpdateCollider()
+	{
+        if (GetComponent<MeshCollider>())
+            GetComponent<MeshCollider>().sharedMesh = mesh;
+        else
+            gameObject.AddComponent<MeshCollider>().sharedMesh = mesh;
+	}
 
     void UpdateMesh()
 	{
@@ -109,6 +128,10 @@ public class MeshGenerator : MonoBehaviour
 
         mesh.uv = uvs;
 
+        if (UseCollider)
+            UpdateCollider();
+        else if (GetComponent<MeshCollider>())
+            DestroyImmediate(GetComponent<MeshCollider>());
     }
 
 
