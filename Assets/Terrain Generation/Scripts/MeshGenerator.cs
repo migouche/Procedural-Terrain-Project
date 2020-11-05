@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+
+[HelpURL("https://github.com/migouche/Procedural-Terrain-Project")]
+
 [ExecuteAlways]
 [RequireComponent(typeof(MeshRenderer))][RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
@@ -8,14 +11,30 @@ public class MeshGenerator : MonoBehaviour
     Mesh mesh;
     Vector3[] vertices;
     int[] triangles;
-
     Vector2[] uvs;
-
+    
+    [Header("Terrain Properties")]  //Terrain Settings
+    [Tooltip("Number of Vertices on the X Axis")]
     public int XSize = 20;
+    [Tooltip("Number of Vectices on the Z axis")]
     public int ZSize = 20;
+    
+    [Space(5)]
+    
+    public NoiseLayer[] Layers = { new NoiseLayer { scale = 5, height = 2 } };
 
-    public NoiseLayer[] Layers = new NoiseLayer[] { new NoiseLayer { scale = 5, height = 2 } };
-    // Start is called before the first frame update
+    [Space(10)]
+    
+    [Header("Gizmos")]  //Gizmos Settings
+    [Tooltip("Wether or not to draw the vertices of the Terrain")]
+    public bool DrawVertices;
+    
+    [Tooltip("Wether or not to draw the Terrain Wireframe")]
+    public bool DrawWireFrame;
+
+    [Tooltip("Gizmos' Colour")]
+    public Color color;
+
     void Start()
     {
         mesh = new Mesh();
@@ -51,7 +70,7 @@ public class MeshGenerator : MonoBehaviour
         int vert = 0;
         int tris = 0;
         triangles = new int[XSize * ZSize * 6];
-       for (int z = 0; z < ZSize; z++)
+        for (int z = 0; z < ZSize; z++)
         {
             for (int x = 0; x < XSize; x++)
             {
@@ -95,14 +114,19 @@ public class MeshGenerator : MonoBehaviour
 
     private void OnDrawGizmos()
 	{
+        Gizmos.color = color;
         if (vertices != null)
         {
-            for (int i = 0; i < vertices.Length; i++)
-                Gizmos.DrawSphere(vertices[i] + transform.position, .1f);
+            if(DrawVertices)
+                foreach (Vector3 v in vertices)
+                    Gizmos.DrawSphere(v + transform.position, .1f);
+                    
+            if(DrawWireFrame)
+                Gizmos.DrawWireMesh(mesh, transform.position);
         }
     }
-    [MenuItem("Terrain Generator/New Terrain", false, 12)]
-    [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
+    
+    [MenuItem("Terrain Generator/New Terrain", false, 12)] [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
     public static void NewTerrain()
 	{
         new GameObject("New Terrain", typeof(MeshGenerator));
