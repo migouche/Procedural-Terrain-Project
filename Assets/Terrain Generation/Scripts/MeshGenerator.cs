@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using Pinwheel.MeshToFile;
 //using System.Diagnostics;
 
 [HelpURL("https://github.com/migouche/Procedural-Terrain-Project")]
@@ -8,7 +9,12 @@ using UnityEditor;
 [RequireComponent(typeof(MeshRenderer))] [RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
 {
-    Mesh mesh;
+    [HideInInspector]
+    public Mesh mesh;
+
+    [HideInInspector]
+    public MeshRenderer meshRenderer;
+
     Vector3[] vertices;
     int[] triangles;
     Vector2[] uvs;
@@ -50,6 +56,8 @@ public class MeshGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        meshRenderer = GetComponent<MeshRenderer>();
+
         if (LPos != transform.position || true)
         {
             vertices = new Vector3[(XSize + 1) * (ZSize + 1)];
@@ -103,7 +111,7 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= XSize; x++)
             {
-                uvs[ii] = new Vector2((float)x / XSize, (float)z / ZSize);
+                uvs[ii] = new Vector2((float)(x + transform.position.x) / XSize , (float)(z + transform.position.z) / ZSize);
                 ii++;
             }
         }
