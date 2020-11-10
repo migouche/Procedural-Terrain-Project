@@ -6,6 +6,6 @@ namespace Pinwheel.MeshToFile
 {
     public interface IMeshSaver
     {
-        void Save(Mesh m, Material mat, string ObjPath, string MatPath);
+        void Save(Mesh m, Material mat, string path);
     }
 }

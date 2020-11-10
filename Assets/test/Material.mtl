@@ -1,0 +1,8 @@
+# Define a new material with default name
+newmtl Default
+# Diffuse/Tint color
+Kd 1 1 1
+d 1
+Tr 0
+# Diffuse map
+map_Kd sandy_stony_ground.jpg

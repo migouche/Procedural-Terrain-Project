@@ -19,7 +19,7 @@ namespace Pinwheel.MeshToFile
         private Mesh[] meshes;
         private string multipleMeshFileName;
 
-        public void Save(Mesh m, Material mat, string ObjPath, string MatPath)
+        public void Save(Mesh m, Material mat, string path)
         {
             mesh = m;
             material = mat;
@@ -28,17 +28,17 @@ namespace Pinwheel.MeshToFile
             string mtlFileContent = GetMtlFileContent();
             try
             {
-                File.WriteAllText(ObjPath, objFileContent);
+                File.WriteAllText(path + "/Terrain.obj", objFileContent);
 
                 if (material != null)
                 {
-                    File.WriteAllText(MatPath, mtlFileContent);
+                    File.WriteAllText(path + "/Material.mtl", mtlFileContent);
                 }
 
                 if (material != null && material.mainTexture != null)
                 {
                     string texturePath = AssetDatabase.GetAssetPath(material.mainTexture);
-                    string newTexturePath = Path.Combine(ObjPath, GetMainTextureFileName());
+                    string newTexturePath = Path.Combine(path, GetMainTextureFileName());
                     File.Copy(texturePath, newTexturePath, true);
                 }
             }

@@ -160,7 +160,7 @@ public class MeshGenerator : MonoBehaviour
     [MenuItem("Terrain Generator/New Terrain", false, 12)] [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
     public static void NewTerrain()
 	{
-        new GameObject("New Terrain", typeof(MeshGenerator));
+        Instantiate(new GameObject("New Terrain", typeof(MeshGenerator)), Vector3.zero, Quaternion.identity);
 	}
 
     [System.Serializable]

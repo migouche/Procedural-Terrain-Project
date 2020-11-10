@@ -22,7 +22,7 @@ namespace Pinwheel.MeshToFile
         private const string DEFAULT_MESH_NAME = "Default";
         private const string MAIN_TEXTURE_NAME_SUFFIX = "_MainTex";
 
-        public void Save(Mesh m, Material mat, string ObjPath, string MatPath)
+        public void Save(Mesh m, Material mat, string path)
         {
             mesh = m;
             material = mat;
@@ -39,11 +39,11 @@ namespace Pinwheel.MeshToFile
                 {
                     string srcTexturePath = AssetDatabase.GetAssetPath(material.mainTexture);
                     string desTextureName = string.Format("{0}{1}{2}", mesh.name, MAIN_TEXTURE_NAME_SUFFIX, Path.GetExtension(srcTexturePath));
-                    string desTexturePath = Path.Combine(ObjPath, desTextureName);
+                    string desTexturePath = Path.Combine(path, desTextureName);
                     File.Copy(srcTexturePath, desTexturePath, true);
                 }
 
-                string filePath = Path.Combine(ObjPath, GetFbxFileName());
+                string filePath = Path.Combine(path, GetFbxFileName());
                 FbxFormatter formatter = new FbxFormatter();
                 formatter.BracketStyle = FbxFormatter.OpenCurlyBracketStyle.Inline;
                 string[] formattedContent = formatter.Format(fileContent);

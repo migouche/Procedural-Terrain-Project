@@ -25,11 +25,11 @@ namespace Pinwheel.MeshToFile
             Object.DestroyImmediate(clonedMesh);
         }
 
-        /*public static string SaveFbxMultipleMesh(Mesh[] meshes, string path, string fileName)
+        public static string SaveFbxMultipleMesh(Mesh[] meshes, string path, string fileName)
         {
             MeshToFbxAsciiSaver saver = new MeshToFbxAsciiSaver();
             return saver.Save(meshes, path, fileName);
-        }*/
+        }
 
         public static string SaveObjMultipleMesh(Mesh[] meshes, string path, string fileName)
         {
