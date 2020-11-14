@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.IO;
+using Pinwheel.MeshToFile;
  
 [CustomEditor(typeof(MeshGenerator))]
 public class MeshGeneratorEditor : Editor
@@ -9,11 +10,11 @@ public class MeshGeneratorEditor : Editor
 	{
 		MeshGenerator MeshG = (MeshGenerator)target;
 		DrawDefaultInspector();
-		if (GUILayout.Button("Save Mesh"))
+		if (GUILayout.Button("Save as obj"))
 		{
 			Debug.Log("Save Mesh");
 
-            string path = EditorUtility.OpenFolderPanel("Select Folder for saving Mesh to obj", "", "");
+            string path = EditorUtility.OpenFolderPanel("Select folder to save Mesh as obj", "", "");
             
 			File.Create(path + "/Terrain.obj");
 
@@ -21,5 +22,12 @@ public class MeshGeneratorEditor : Editor
 
 			StaticMeshToObj.meshToObj.Save(MeshG.mesh, MeshG.meshRenderer.sharedMaterial, path);
 		}
-	}
+        
+        if(GUILayout.Button("Save as fbx"))
+        {
+            string path = EditorUtility.OpenFolderPanel("Select folder to save Mesh as fbx", "", "");
+
+            StaticMeshToObj.meshToFbx.Save(MeshG.mesh, MeshG.meshRenderer.sharedMaterial, path);
+        }
+    }
 }

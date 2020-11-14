@@ -44,7 +44,7 @@ public class MeshGenerator : MonoBehaviour
 
     [Tooltip("Gizmos' Colour")]
     public Color color;
-
+        
     void Start()
     {
 

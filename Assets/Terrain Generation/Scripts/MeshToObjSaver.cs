@@ -136,7 +136,6 @@ namespace Pinwheel.MeshToFile
         private string CreateHeader(string meshName)
         {
             StringBuilder sb = new StringBuilder()
-                .Append("# ").Append(VersionInfo.ProductNameAndVersion).Append("\n")
                 .Append("# http://pinwheel.studio").Append("\n")
                 .AppendFormat("o {0}", meshName).Append("\n");
             return sb.ToString();

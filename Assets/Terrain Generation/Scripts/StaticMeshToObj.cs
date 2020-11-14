@@ -6,4 +6,5 @@ using Pinwheel.MeshToFile;
 public static class StaticMeshToObj
 {
 	public static MeshToObjSaver meshToObj = new MeshToObjSaver();
+    public static MeshToFbxAsciiSaver meshToFbx = new MeshToFbxAsciiSaver();
 }
