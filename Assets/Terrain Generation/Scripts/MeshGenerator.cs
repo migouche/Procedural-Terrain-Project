@@ -169,4 +169,12 @@ public class MeshGenerator : MonoBehaviour
         public float scale;
         public float height;
 	}
+
+    [System.Serializable]
+    public class TerrainConfiguration
+	{
+        public int X, Z;
+        public NoiseLayer[] noises;
+        public bool collider;
+	}
 }

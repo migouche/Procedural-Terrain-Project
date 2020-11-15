@@ -29,5 +29,10 @@ public class MeshGeneratorEditor : Editor
 
             StaticMeshToObj.meshToFbx.Save(MeshG.mesh, MeshG.meshRenderer.sharedMaterial, path);
         }
+
+		if(GUILayout.Button("Save configuraton"))
+		{
+			ConfigSaveAndLoad.SaveConfig(MeshG);
+		}
     }
 }
