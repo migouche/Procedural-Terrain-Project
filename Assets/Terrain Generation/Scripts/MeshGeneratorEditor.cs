@@ -10,6 +10,9 @@ public class MeshGeneratorEditor : Editor
 	{
 		MeshGenerator MeshG = (MeshGenerator)target;
 		DrawDefaultInspector();
+
+        GUILayout.BeginHorizontal();
+        
 		if (GUILayout.Button("Save as obj"))
 		{
 			Debug.Log("Save Mesh");
@@ -29,8 +32,13 @@ public class MeshGeneratorEditor : Editor
 
             StaticMeshToObj.meshToFbx.Save(MeshG.mesh, MeshG.meshRenderer.sharedMaterial, path);
         */
-            Debug.Log("Coming Soon!");
+            EditorUtility.DisplayDialog("Coming soon!", "This feature is not yet implemented!", "ok");
+            //Debug.Log("Coming Soon!");
         }
+
+        GUILayout.EndHorizontal();
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
 
 		if(GUILayout.Button("Save configuraton"))
 		{
@@ -41,5 +49,7 @@ public class MeshGeneratorEditor : Editor
         {
             MeshG.LoadFromConfig(ConfigSaveAndLoad.LoadConfig());
         }
+
+        GUILayout.EndHorizontal();
     }
 }

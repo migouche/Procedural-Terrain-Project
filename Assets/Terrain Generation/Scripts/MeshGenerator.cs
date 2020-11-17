@@ -164,11 +164,12 @@ public class MeshGenerator : MonoBehaviour
         UseCollider = config.collider;
     }
 
-    [MenuItem("Terrain Generator/New Terrain", false, 12)] [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
+    [MenuItem("Terrain Generator/New Terrain/Empty", false, 12)] [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
     public static void NewTerrain()
 	{
-        Instantiate(new GameObject("New Terrain", typeof(MeshGenerator)), Vector3.zero, Quaternion.identity);
+        new GameObject("New Terrain", typeof(MeshGenerator));
 	}
+    
 
     [System.Serializable]
     public class NoiseLayer
