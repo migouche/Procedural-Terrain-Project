@@ -171,6 +171,13 @@ public class MeshGenerator : MonoBehaviour
     {
         new GameObject("New Terrain", typeof(MeshGenerator));
     }
+   
+    [MenuItem("Terrain Generator/New Terrain/From Configuration", false, 12)]
+    public static void NewTerrainFromConfiguration()
+    {
+        MeshGenerator t = new GameObject("New Terrain", typeof(MeshGenerator)).GetComponent<MeshGenerator>();
+        t.LoadFromConfig(ConfigSaveAndLoad.LoadConfig());
+    }
 
 
     [System.Serializable]
