@@ -6,7 +6,8 @@ using Pinwheel.MeshToFile;
 [HelpURL("https://github.com/migouche/Procedural-Terrain-Project")]
 
 [ExecuteAlways]
-[RequireComponent(typeof(MeshRenderer))] [RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
 {
     [HideInInspector]
@@ -44,7 +45,7 @@ public class MeshGenerator : MonoBehaviour
 
     [Tooltip("Gizmos' Colour")]
     public Color color;
-        
+
     void Start()
     {
 
@@ -70,21 +71,21 @@ public class MeshGenerator : MonoBehaviour
 
 
     void CreateMesh()
-	{
+    {
         int i = 0;
-        for(int z = 0; z <= ZSize; z++)
-		{
+        for (int z = 0; z <= ZSize; z++)
+        {
             for (int x = 0; x <= XSize; x++)
-			{
+            {
                 float Y = 0;
-                foreach(NoiseLayer n in Layers)
+                foreach (NoiseLayer n in Layers)
                 {
                     Y += Mathf.PerlinNoise((x + transform.position.x) / n.scale, (z + transform.position.z) / n.scale) * n.height;
-				}
+                }
                 vertices[i] = new Vector3(x, Y, z);
                 i++;
-			}
-		}
+            }
+        }
 
         int vert = 0;
         int tris = 0;
@@ -104,29 +105,29 @@ public class MeshGenerator : MonoBehaviour
             }
             vert++;
         }
-       
+
         int ii = 0;
         uvs = new Vector2[vertices.Length];
         for (int z = 0; z <= ZSize; z++)
         {
             for (int x = 0; x <= XSize; x++)
             {
-                uvs[ii] = new Vector2((float)(x + transform.position.x) / XSize , (float)(z + transform.position.z) / ZSize);
+                uvs[ii] = new Vector2((float)(x + transform.position.x) / XSize, (float)(z + transform.position.z) / ZSize);
                 ii++;
             }
         }
     }
-    
+
     public void UpdateCollider()
-	{
+    {
         if (GetComponent<MeshCollider>())
             GetComponent<MeshCollider>().sharedMesh = mesh;
         else
             gameObject.AddComponent<MeshCollider>().sharedMesh = mesh;
-	}
+    }
 
     void UpdateMesh()
-	{
+    {
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
@@ -144,19 +145,19 @@ public class MeshGenerator : MonoBehaviour
 
 
     private void OnDrawGizmos()
-	{
+    {
         Gizmos.color = color;
         if (vertices != null)
         {
-            if(DrawVertices)
+            if (DrawVertices)
                 foreach (Vector3 v in vertices)
                     Gizmos.DrawSphere(v + transform.position, .1f);
-                    
-            if(DrawWireFrame)
+
+            if (DrawWireFrame)
                 Gizmos.DrawWireMesh(mesh, transform.position);
         }
     }
-    
+
     public void LoadFromConfig(TerrainConfiguration config)
     {
         XSize = config.X; ZSize = config.Z;
@@ -164,25 +165,26 @@ public class MeshGenerator : MonoBehaviour
         UseCollider = config.collider;
     }
 
-    [MenuItem("Terrain Generator/New Terrain/Empty", false, 12)] [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
+    [MenuItem("Terrain Generator/New Terrain/Empty Terrain", false, 12)]
+    [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
     public static void NewTerrain()
-	{
+    {
         new GameObject("New Terrain", typeof(MeshGenerator));
-	}
-    
+    }
+
 
     [System.Serializable]
     public class NoiseLayer
-	{
+    {
         public float scale;
         public float height;
-	}
+    }
 
     [System.Serializable]
     public class TerrainConfiguration
-	{
+    {
         public int X, Z;
         public NoiseLayer[] layers;
         public bool collider;
-	}
+    }
 }
