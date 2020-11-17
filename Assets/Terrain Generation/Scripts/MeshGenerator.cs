@@ -116,7 +116,7 @@ public class MeshGenerator : MonoBehaviour
             }
         }
     }
-
+    
     public void UpdateCollider()
 	{
         if (GetComponent<MeshCollider>())
@@ -157,6 +157,13 @@ public class MeshGenerator : MonoBehaviour
         }
     }
     
+    public void LoadFromConfig(TerrainConfiguration config)
+    {
+        XSize = config.X; ZSize = config.Z;
+        Layers = config.layers;
+        UseCollider = config.collider;
+    }
+
     [MenuItem("Terrain Generator/New Terrain", false, 12)] [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
     public static void NewTerrain()
 	{
@@ -174,7 +181,7 @@ public class MeshGenerator : MonoBehaviour
     public class TerrainConfiguration
 	{
         public int X, Z;
-        public NoiseLayer[] noises;
+        public NoiseLayer[] layers;
         public bool collider;
 	}
 }

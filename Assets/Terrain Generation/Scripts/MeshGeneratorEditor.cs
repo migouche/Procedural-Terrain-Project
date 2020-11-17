@@ -24,15 +24,22 @@ public class MeshGeneratorEditor : Editor
 		}
         
         if(GUILayout.Button("Save as fbx"))
-        {
+        {/*
             string path = EditorUtility.OpenFolderPanel("Select folder to save Mesh as fbx", "", "");
 
             StaticMeshToObj.meshToFbx.Save(MeshG.mesh, MeshG.meshRenderer.sharedMaterial, path);
+        */
+            Debug.Log("Coming Soon!");
         }
 
 		if(GUILayout.Button("Save configuraton"))
 		{
 			ConfigSaveAndLoad.SaveConfig(MeshG);
 		}
+        
+        if(GUILayout.Button("Load Configuration"))
+        {
+            MeshG.LoadFromConfig(ConfigSaveAndLoad.LoadConfig());
+        }
     }
 }

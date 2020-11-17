@@ -17,8 +17,8 @@ namespace Pinwheel.MeshToFile
 
             public FbxProperty(string name, object value)
             {
-                this.Name = name;
                 this.Value = value.ToString();
+                this.Name = name;
             }
 
             public override string ToString()
