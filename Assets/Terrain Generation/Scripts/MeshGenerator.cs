@@ -164,6 +164,24 @@ public class MeshGenerator : MonoBehaviour
         Layers = config.layers;
         UseCollider = config.collider;
     }
+    
+    [MenuItem("Terrain Generator/Selected Terrain/Save Terrain Configuration", false, 12)]
+    public static void SaveConfig()
+    {
+        if (Selection.activeObject && (Selection.activeObject as GameObject).GetComponent<MeshGenerator>() is MeshGenerator mg)
+            ConfigSaveAndLoad.SaveConfig(mg);
+        else
+            EditorUtility.DisplayDialog("Terrain not selected!", "You must select in the hierarchy a GameObject with the class MeshGenerator!", "ok");
+    }
+    
+    [MenuItem("Terrain Generator/Selected Terrain/Load Configuration Into Terrain", false, 12)]
+    public static void LoadConfigIntoTerrain()
+    {
+        if (Selection.activeObject && (Selection.activeObject as GameObject).GetComponent<MeshGenerator>() is MeshGenerator mg)
+            mg.LoadFromConfig(ConfigSaveAndLoad.LoadConfig());
+        else
+            EditorUtility.DisplayDialog("Terrain not selected!", "You must select in the hierarchy a GameObject with the class MeshGenerator!", "ok");
+    }
 
     [MenuItem("Terrain Generator/New Terrain/Empty Terrain", false, 12)]
     [MenuItem("GameObject/Terrain Generator/New Terrain", false, 12)]
