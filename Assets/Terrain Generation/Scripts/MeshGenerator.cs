@@ -193,8 +193,11 @@ public class MeshGenerator : MonoBehaviour
     [MenuItem("Terrain Generator/New Terrain/From Configuration", false, 12)]
     public static void NewTerrainFromConfiguration()
     {
+        var config = ConfigSaveAndLoad.LoadConfig();
+        if (config == null)
+            return;
         MeshGenerator t = new GameObject("New Terrain", typeof(MeshGenerator)).GetComponent<MeshGenerator>();
-        t.LoadFromConfig(ConfigSaveAndLoad.LoadConfig());
+        t.LoadFromConfig(config);
     }
 
 

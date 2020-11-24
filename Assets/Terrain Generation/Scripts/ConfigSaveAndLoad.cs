@@ -12,6 +12,9 @@ public static class ConfigSaveAndLoad
 	public static void SaveConfig(TerrainConfiguration config)
 	{
 		string path = EditorUtility.SaveFilePanel("Save terrain configuration", "", "config", "ptg");
+        if (path == string.Empty)
+            return;
+            
 		var ms = new MemoryStream();
 		var jsonser = new DataContractJsonSerializer(typeof(TerrainConfiguration));
 		jsonser.WriteObject(ms, config);
@@ -32,6 +35,8 @@ public static class ConfigSaveAndLoad
 	public static TerrainConfiguration LoadConfig()
 	{
         string path = EditorUtility.OpenFilePanel("Select terrain configuration (.ptg)", "", "ptg");
+        if (path == string.Empty)
+            return null;
 
         var jsonser = new DataContractJsonSerializer(typeof(TerrainConfiguration));
         var ms = new MemoryStream(Encoding.UTF8.GetBytes(File.ReadAllText(path)));
