@@ -160,6 +160,8 @@ public class MeshGenerator : MonoBehaviour
 
     public void LoadFromConfig(TerrainConfiguration config)
     {
+        if (config == null)
+            return;
         XSize = config.X; ZSize = config.Z;
         Layers = config.layers;
         UseCollider = config.collider;
@@ -171,7 +173,7 @@ public class MeshGenerator : MonoBehaviour
         if (Selection.activeObject && (Selection.activeObject as GameObject).GetComponent<MeshGenerator>() is MeshGenerator mg)
             ConfigSaveAndLoad.SaveConfig(mg);
         else
-            EditorUtility.DisplayDialog("Terrain not selected!", "You must select in the hierarchy a GameObject with the class MeshGenerator!", "ok");
+            EditorUtility.DisplayDialog("Terrain not selected!", "You must select in the hierarchy a GameObject with the class MeshGenerator!", "Ok");
     }
     
     [MenuItem("Terrain Generator/Selected Terrain/Load Configuration Into Terrain", false, 12)]
@@ -180,7 +182,7 @@ public class MeshGenerator : MonoBehaviour
         if (Selection.activeObject && (Selection.activeObject as GameObject).GetComponent<MeshGenerator>() is MeshGenerator mg)
             mg.LoadFromConfig(ConfigSaveAndLoad.LoadConfig());
         else
-            EditorUtility.DisplayDialog("Terrain not selected!", "You must select in the hierarchy a GameObject with the class MeshGenerator!", "ok");
+            EditorUtility.DisplayDialog("Terrain not selected!", "You must select in the hierarchy a GameObject with the class MeshGenerator!", "Ok");
     }
 
     [MenuItem("Terrain Generator/New Terrain/Empty Terrain", false, 12)]

@@ -72,8 +72,16 @@ public class TerrainGeneratorWindow : EditorWindow
                 EditorUtility.DisplayDialog("Can not add more layers!", "You have reached the limit of 10 layers", "ok");
 
         GUILayout.Space(20);
+        
+        GUILayout.BeginHorizontal();
+
         if (GUILayout.Button("Save Coniguration"))
             Save();
+
+        if (GUILayout.Button("Load Configuration"))
+            LoadConfigFromFile();
+
+        GUILayout.EndHorizontal();
 
         X = Mathf.Clamp(X, 0, 250);
         Z = Mathf.Clamp(Z, 0, 250);
@@ -83,5 +91,23 @@ public class TerrainGeneratorWindow : EditorWindow
     {
         ConfigSaveAndLoad.SaveConfig(new MeshGenerator.TerrainConfiguration { X = X, Z = Z, layers = layers.ToArray(), collider = col });   
     }
+    
+    public void LoadConfigFromFile()
+    {
+        var config = ConfigSaveAndLoad.LoadConfig();
+        if (config != null)
+            LoadConfigFromVar(config);
+    }
+    
+    public void LoadConfigFromVar(MeshGenerator.TerrainConfiguration config)
+    {
+        X = config.X;
+        Z = config.Z;
 
+        col = config.collider;
+
+        layers = new List<MeshGenerator.NoiseLayer>();
+        foreach (var layer in config.layers)
+            layers.Add(layer);
+    }
 }
