@@ -61,17 +61,16 @@ public class MeshGenerator : MonoBehaviour
 
         if (LPos != transform.position || true)
         {
-            vertices = new Vector3[(XSize + 1) * (ZSize + 1)];
 
             CreateMesh();
-            UpdateMesh();
         }
         LPos = transform.position;
     }
 
 
-    void CreateMesh()
+    public void CreateMesh()
     {
+        vertices = new Vector3[(XSize + 1) * (ZSize + 1)];
         int i = 0;
         for (int z = 0; z <= ZSize; z++)
         {
@@ -116,6 +115,8 @@ public class MeshGenerator : MonoBehaviour
                 ii++;
             }
         }
+
+        UpdateMesh();
     }
 
     public void UpdateCollider()
@@ -126,7 +127,7 @@ public class MeshGenerator : MonoBehaviour
             gameObject.AddComponent<MeshCollider>().sharedMesh = mesh;
     }
 
-    void UpdateMesh()
+    public void UpdateMesh()
     {
         mesh.Clear();
         mesh.vertices = vertices;

@@ -8,7 +8,6 @@ public class TerrainGeneratorWindow : EditorWindow
 
     public int X, Z;
     public bool col;
-    //public int NumberOfLayers;
     public List<MeshGenerator.NoiseLayer> layers;
 
     [MenuItem("Window/Terrain Generator")]
